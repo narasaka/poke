@@ -41,28 +41,7 @@ function App() {
       if (permission !== "granted") {
         throw new Error("Push notification permission not granted.");
       }
-
-      const { vapidPublicKey } = await ky
-        .get<{
-          vapidPublicKey: string;
-        }>(`${import.meta.env.VITE_API_URL}/vapid-public-key`)
-        .json();
-
-      const registration = await navigator.serviceWorker.getRegistration();
-      if (!registration) {
-        throw new Error("Service worker not registered.");
-      }
-
-      const subscription = await registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: vapidPublicKey, // Use fetched VAPID key
-      });
-
-      await subscribe(subscription);
-      console.log(
-        `Push subscription for client ${currentClientId}:`,
-        subscription,
-      );
+      await subscribe();
     } catch (err) {
       console.error("Failed to subscribe for push notifications", err);
       setError("Failed to subscribe.");
@@ -98,7 +77,6 @@ function App() {
     }
   };
 
-  // Real server send push notification call
   const serverSendPushNotificationToClient = async (
     clientId: string,
     notificationPayload: {
