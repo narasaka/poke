@@ -13,7 +13,7 @@ export const useSubscription = (clientId: string) => {
     queryFn: async () => {
       const { isSubscribed } = await ky
         .get<CheckSubscriptionResponse>(
-          "http://localhost:8000/check-subscription",
+          `${import.meta.env.VITE_API_URL}/check-subscription`,
           { searchParams: { clientId } },
         )
         .json();
@@ -23,7 +23,7 @@ export const useSubscription = (clientId: string) => {
 
   const mutation = useMutation({
     mutationFn: async (subscription: PushSubscription) => {
-      await ky.post("http://localhost:8000/subscribe", {
+      await ky.post(`${import.meta.env.VITE_API_URL}/subscribe`, {
         json: { clientId, subscription },
       });
     },

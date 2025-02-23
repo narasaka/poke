@@ -45,7 +45,7 @@ function App() {
       const { vapidPublicKey } = await ky
         .get<{
           vapidPublicKey: string;
-        }>("http://localhost:8000/vapid-public-key")
+        }>(`${import.meta.env.VITE_API_URL}/vapid-public-key`)
         .json();
 
       const registration = await navigator.serviceWorker.getRegistration();
@@ -110,7 +110,7 @@ function App() {
   ) => {
     try {
       const data = await ky
-        .post("http://localhost:8000/send-notification", {
+        .post(`${import.meta.env.VITE_API_URL}/send-notification`, {
           json: { clientId, notificationPayload },
         })
         .json();
@@ -123,7 +123,7 @@ function App() {
   };
 
   return (
-    <div className="flex h-svh flex-col items-center justify-center gap-4">
+    <div className="flex h-svh flex-col items-center justify-center gap-4 p-4">
       <h1 className="text-5xl font-medium">poke</h1>
       <div className="rounded bg-neutral-100 p-4">
         <p>
