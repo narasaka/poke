@@ -1,5 +1,13 @@
 /// <reference lib="webworker" />
+import { precacheAndRoute } from "workbox-precaching";
+import { clientsClaim } from "workbox-core";
+
 declare let self: ServiceWorkerGlobalScope;
+
+precacheAndRoute(self.__WB_MANIFEST);
+
+self.skipWaiting();
+clientsClaim();
 
 console.log("Service worker registered");
 
@@ -10,7 +18,7 @@ self.addEventListener("install", () => {
 
 self.addEventListener("activate", () => {
   console.log("Service worker activating.");
-  self.clients.claim();
+  clientsClaim();
   console.log("Service worker activated and claiming clients.");
 });
 

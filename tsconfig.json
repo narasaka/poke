@@ -9,6 +9,11 @@
     }
   ],
   "compilerOptions": {
+    "lib": [
+      "ESNext",
+      "DOM",
+      "WebWorker"
+    ],
     "baseUrl": ".",
     "paths": {
       "~/*": [

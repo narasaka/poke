@@ -10,6 +10,9 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
+      strategies: "injectManifest",
+      srcDir: "src",
+      filename: "sw.ts",
       registerType: "autoUpdate",
 
       manifest: {
@@ -51,6 +54,8 @@ export default defineConfig({
 
       devOptions: {
         enabled: true,
+        type: "module",
+        navigateFallback: "index.html",
       },
     }),
   ],
