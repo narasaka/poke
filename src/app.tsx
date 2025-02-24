@@ -5,8 +5,6 @@ import { useSubscription } from "./hooks/use-subscription";
 import { Button } from "~/components/button";
 
 function App() {
-  const [isPushNotificationSupported, setIsPushNotificationSupported] =
-    useState(false);
   const [permission, setPermission] =
     useState<NotificationPermission>("default");
   const [isSendingNotification, setIsSendingNotification] = useState(false);
@@ -19,18 +17,11 @@ function App() {
   const { isSubscribed, isCheckingSubscription, subscribe, isSubscribing } =
     useSubscription(currentClientId);
 
-  useEffect(() => {
-    const isNotificationSupported = "Notification" in window;
-    setIsPushNotificationSupported(
-      isNotificationSupported &&
-        "serviceWorker" in navigator &&
-        "PushManager" in window,
-    );
-
-    if (isNotificationSupported) {
-      setPermission(Notification.permission);
-    }
-  }, []);
+  const isNotificationSupported = "Notification" in window;
+  const isPushNotificationSupported =
+    isNotificationSupported &&
+    "serviceWorker" in navigator &&
+    "PushManager" in window;
 
   useEffect(() => {
     if (!currentClientId) {
@@ -133,28 +124,11 @@ function App() {
         </p>
       )}
 
-      {isPushNotificationSupported &&
-        permission !== "granted" &&
-        permission !== "denied" && (
-          <Button
-            onClick={() => Notification.requestPermission().then(setPermission)}
-          >
-            Request Notification Permission
-          </Button>
-        )}
-
-      {isPushNotificationSupported &&
-        permission === "granted" &&
-        !isSubscribed && (
-          <Button
-            onClick={subscribeToPushNotifications}
-            disabled={isSubscribing}
-          >
-            {isSubscribing
-              ? "Subscribing..."
-              : "Subscribe to Push Notifications"}
-          </Button>
-        )}
+      {isPushNotificationSupported && !isSubscribed && (
+        <Button onClick={subscribeToPushNotifications} disabled={isSubscribing}>
+          {isSubscribing ? "Subscribing..." : "Subscribe to Push Notifications"}
+        </Button>
+      )}
 
       {error && (
         <p className="text-destructive text-center text-sm">Error: {error}</p>
