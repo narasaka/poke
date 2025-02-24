@@ -20,6 +20,8 @@ export default defineConfig({
         short_name: "poke",
         description: "send push notifications without an app",
         theme_color: "#ffffff",
+        start_url: "/",
+        scope: "/",
 
         icons: [
           {
@@ -63,5 +65,8 @@ export default defineConfig({
     alias: {
       "~": path.resolve(__dirname, "/src"),
     },
+  },
+  server: {
+    allowedHosts: ["sage.local"],
   },
 });

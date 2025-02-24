@@ -7,7 +7,8 @@ import { Button } from "~/components/button";
 function App() {
   const [isPushNotificationSupported, setIsPushNotificationSupported] =
     useState(false);
-  const [permission, setPermission] = useState(Notification.permission);
+  const [permission, setPermission] =
+    useState<NotificationPermission>("default");
   const [isSendingNotification, setIsSendingNotification] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const clientId = useReadLocalStorage<string>("client-id");
@@ -19,15 +20,16 @@ function App() {
     useSubscription(currentClientId);
 
   useEffect(() => {
+    const isNotificationSupported = "Notification" in window;
     setIsPushNotificationSupported(
-      "serviceWorker" in navigator && "PushManager" in window,
+      isNotificationSupported &&
+        "serviceWorker" in navigator &&
+        "PushManager" in window,
     );
-  }, []);
 
-  useEffect(() => {
-    Notification.requestPermission().then((perm) => {
-      setPermission(perm);
-    });
+    if (isNotificationSupported) {
+      setPermission(Notification.permission);
+    }
   }, []);
 
   useEffect(() => {
@@ -37,6 +39,13 @@ function App() {
   }, [currentClientId, setCurrentClientId]);
 
   const subscribeToPushNotifications = async () => {
+    if (!("Notification" in window)) {
+      setError("Notifications are not supported in this browser.");
+      return;
+    }
+
+    const permission = await Notification.requestPermission();
+    setPermission(permission);
     try {
       if (permission !== "granted") {
         throw new Error("Push notification permission not granted.");

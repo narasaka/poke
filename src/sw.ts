@@ -1,9 +1,12 @@
 /// <reference lib="webworker" />
-import { precacheAndRoute } from "workbox-precaching";
+import { registerRoute } from "workbox-routing";
+import { NetworkFirst, CacheFirst } from "workbox-strategies";
+import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
 import { clientsClaim } from "workbox-core";
 
 declare let self: ServiceWorkerGlobalScope;
 
+cleanupOutdatedCaches();
 precacheAndRoute(self.__WB_MANIFEST);
 
 self.skipWaiting();
@@ -57,3 +60,18 @@ self.addEventListener("notificationclick", (event) => {
 self.addEventListener("notificationclose", (event) => {
   console.log("Notification closed", event);
 });
+
+registerRoute(
+  ({ request }) => request.mode === "navigate",
+  new NetworkFirst({
+    cacheName: "page-cache", // Optional: Give a cache name for pages
+  }),
+);
+
+// For other assets (JS, CSS, images, etc.), use CacheFirst strategy (for performance)
+registerRoute(
+  ({ request }) => request.destination !== "document", // Exclude 'document' requests (HTML pages)
+  new CacheFirst({
+    cacheName: "asset-cache", // Optional: Give a cache name for assets
+  }),
+);
