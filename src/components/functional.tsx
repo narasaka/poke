@@ -109,6 +109,17 @@ export function FunctionalSection() {
       throw error;
     }
   };
+
+  const errorText = (() => {
+    if (!isPushNotificationSupported) {
+      return "Push notifications are not supported in this browser. Try opening this from the installed web app.";
+    }
+    if (permission === "denied") {
+      return "Push notification permission denied";
+    }
+    return error ?? "null";
+  })();
+
   return (
     <div className="mx-auto w-full max-w-5xl space-y-2 p-4">
       <h3 className="text-lg font-bold">usage</h3>
@@ -126,15 +137,9 @@ export function FunctionalSection() {
           </strong>
         </p>
         <p>
-          error?: <strong>{error ?? "null"}</strong>
+          error?: <strong>{errorText}</strong>
         </p>
       </div>
-
-      {!isPushNotificationSupported && (
-        <p className="text-destructive text-center">
-          Push notifications are not supported in this browser.
-        </p>
-      )}
       {isPushNotificationSupported && !isSubscribed && (
         <Button
           className="w-full sm:w-fit"
@@ -166,12 +171,6 @@ export function FunctionalSection() {
             </code>
           </div>
         </div>
-      )}
-
-      {permission === "denied" && (
-        <p className="text-destructive">
-          Push notifications permission denied.
-        </p>
       )}
     </div>
   );
