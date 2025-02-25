@@ -28,6 +28,7 @@ export function FunctionalSection() {
       setCurrentClientId(crypto.randomUUID());
     }
   }, [currentClientId, setCurrentClientId]);
+
   const curlExample = `curl --request POST \\
   --url ${import.meta.env.VITE_API_URL} \\
   --header 'Content-Type: application/json' \\
