@@ -1,50 +1,100 @@
-# React + TypeScript + Vite
+<h1 align="center">poke</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  An open-source, app-less push notification service
+</p>
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Poke is a lightweight solution for sending push notifications without requiring users to install a native mobile app. It leverages Progressive Web App (PWA) technology to deliver notifications directly through the web browser.
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- 🚀 No app installation required - just install as a PWA
+- 📱 Cross-platform support (iOS, Android, Desktop)
+- 🔌 Simple REST API for sending notifications
+- 🔒 Secure and privacy-focused
+- ⚡ Lightweight and fast
 
-- Configure the top-level `parserOptions` property like this:
+## Getting Started
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### As a User
+
+1. Visit the poke website
+2. Install the PWA:
+
+   - **Desktop (Chrome)**: Click the three-dot menu → Cast, save, and share → Install page as app
+   - **Android**: Tap the three-dot menu → Add to home screen → Install
+   - **iOS**: Tap Share → Add to Home Screen → Add
+
+3. Subscribe to notifications when prompted
+4. You're all set! You can now receive notifications
+
+### As a Developer
+
+To send notifications to subscribed clients, use the following API endpoint:
+
+```bash
+curl --request POST \
+  --url https://api.poke.narasaka.dev/send-notification \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "clientId": "client-id-here",
+    "notificationPayload": {
+      "title": "Hello",
+      "body": "This is a test notification"
+    }
+  }'
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Development
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Prerequisites
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+- Node.js (v18 or higher)
+- pnpm
+
+### Local Setup
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/narasaka/poke.git
+cd poke
 ```
+
+2. Install dependencies:
+
+```bash
+pnpm install
+```
+
+3. Start the development server:
+
+```bash
+pnpm run dev
+```
+
+### Building for Production
+
+```bash
+pnpm run build
+```
+
+## Contributing
+
+Contributions are very welcome! Whether it's:
+
+- Reporting a bug
+- Discussing the current state of the code
+- Submitting a fix
+- Proposing new features
+- Improving documentation
+
+## License
+
+This project is open source and available under the MIT License .
+
+## Support
+
+If you encounter any issues or have questions, please file an issue on the GitHub repository.
