@@ -30,7 +30,7 @@ export function FunctionalSection() {
   }, [currentClientId, setCurrentClientId]);
 
   const curlExample = `curl --request POST \\
-  --url ${import.meta.env.VITE_API_URL} \\
+  --url ${import.meta.env.VITE_API_URL}/send-notification \\
   --header 'Content-Type: application/json' \\
   --data '{
   "clientId": "${currentClientId}",
