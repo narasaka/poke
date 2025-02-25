@@ -120,6 +120,10 @@ export function FunctionalSection() {
     return error ?? "null";
   })();
 
+  useEffect(() => {
+    console.log(`permission is set to ${permission}`);
+  }, [permission]);
+
   return (
     <div className="mx-auto w-full max-w-5xl space-y-2 p-4">
       <h3 className="text-lg font-bold">usage</h3>
