@@ -10,9 +10,10 @@
   ],
   "compilerOptions": {
     "lib": [
-      "ESNext",
-      "DOM",
-      "WebWorker"
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "webworker"
     ],
     "baseUrl": ".",
     "paths": {
